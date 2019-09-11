@@ -1,13 +1,16 @@
-package domain;
+package com.onlineBlog.dao;
+
+import com.onlineBlog.database.Registry;
+import com.onlineBlog.domain.User;
+import com.onlineBlog.util.DBConnection;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import database.DBConnection;
-import database.Registry;
 
-public class UserMapper {
+
+public class UserMapper implements UserDao{
 
 	public static User findWithUserId(String UserId) {
 		String sql = "SELECT id, first_name, last_name, email, password " +
@@ -42,5 +45,15 @@ public class UserMapper {
 		result = new User(id, firstName, lastName, email, pw);
 		Registry.addUser(result);
 		return result;
+	}
+
+	@Override
+	public boolean register(String email, String password) {
+		return false;
+	}
+
+	@Override
+	public User login(String email, String password) {
+		return null;
 	}
 }

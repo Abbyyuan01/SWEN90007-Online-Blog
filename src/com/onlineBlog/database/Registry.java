@@ -1,13 +1,15 @@
-package database;
+package com.onlineBlog.database;
+import com.onlineBlog.domain.Blog;
+import com.onlineBlog.domain.User;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import domain.Blog;
-import domain.User;
+
 
 public class Registry {
 
-	private static Map<String, Blog> blogMap = new HashMap<>();
+	private static Map<Integer, Blog> blogMap = new HashMap<>();
 	private static Map<String, User> userMap = new HashMap<>();
 
 	

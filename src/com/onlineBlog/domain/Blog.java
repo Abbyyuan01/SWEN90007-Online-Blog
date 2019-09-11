@@ -1,11 +1,11 @@
-package domain;
+package com.onlineBlog.domain;
 
 import java.util.Date;
 import java.util.List;
 
 public class Blog {
 
-	private String id;
+	private Integer id;
 	
 	private String title;
 	
@@ -19,7 +19,7 @@ public class Blog {
 	
 	private List <User> likedUser;
 	
-	public Blog (String id, String title, User author, String content, Date postDate, Date lastEditDate) {
+	public Blog (Integer id, String title, User author, String content, Date postDate, Date lastEditDate) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
@@ -29,7 +29,7 @@ public class Blog {
 	}
 	
 	
-	public String getId() {
+	public Integer getId() {
 		return id;
 	}
 	
