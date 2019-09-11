@@ -1,8 +1,8 @@
-package com.onlineBlog.domain;
+package domain;
 
 public class User {
 
-	private Integer id;
+	private int id;
 	
 	private String firstName;
 	
@@ -12,7 +12,7 @@ public class User {
 	
 	private String password;
 	
-	public User (Integer id, String firstName, String lastName, String email, String password) {
+	public User (int id, String firstName, String lastName, String email, String password) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -20,7 +20,7 @@ public class User {
 		this.password = password;
 	}
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
 	}
 	
