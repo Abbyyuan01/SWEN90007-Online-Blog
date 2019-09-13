@@ -3,11 +3,31 @@ package domain;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import database.DBConnection;
 import database.Registry;
 
 public class UserMapper {
+	
+	public static List<User> findAllUsers() {
+		String sql = "SELECT * FROM users ";
+		List<User> result = new ArrayList<>();
+		
+		try {
+			PreparedStatement ps = DBConnection.prepare(sql);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				result.add(UserMapper.load(rs));
+			}
+		} catch (SQLException e) {
+			
+		}
+		return result;
+	}
 
 	public static User findWithUserId(int UserId) {
 		String sql = "SELECT id, first_name, last_name, email, password " +
@@ -28,6 +48,10 @@ public class UserMapper {
 			e.printStackTrace();
 		}
 		return result;
+	}
+	
+	public static void createUser(User user) {
+		
 	}
 	
 	public static User load(ResultSet rs) throws SQLException {

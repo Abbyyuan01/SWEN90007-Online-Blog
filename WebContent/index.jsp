@@ -5,9 +5,11 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
+<link href="https://getbootstrap.com/docs/4.1/dist/css/bootstrap.min.css" rel="stylesheet">
 <title>All blogs</title>
 </head>
 <body>
+<div class='container'>
     <form action="./PostBlog" method="post">
         <div>
           <label for="name">Title </label> <input type="text" id="name" name="title">
@@ -58,6 +60,6 @@
         ------------------------
         <br>
     <%} %>
-      
+      </div>
 </body>
 </html>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import domain.Blog;
 import domain.BlogMapper;
+import domain.User;
 
 public class UnitOfWork {
 
@@ -55,15 +56,24 @@ public class UnitOfWork {
 			if (obj.getClass() == Blog.class) {
 				BlogMapper.postNewBlog((Blog) obj);
 			}
+			if (obj.getClass() == User.class) {
+				//TODO
+			}
 		}
 		for (Object obj : dirtyObjects) {
 			if (obj.getClass() == Blog.class) {
 				BlogMapper.editBlog((Blog) obj);
 			}
+			if (obj.getClass() == User.class) {
+				//TODO
+			}
 		}
 		for (Object obj : deletedObjects) {
 			if (obj.getClass() == Blog.class) {
 				BlogMapper.deleteBlog((Blog) obj);
+			}
+			if (obj.getClass() == User.class) {
+				//TODO
 			}
 		}
 		newObjects.clear();
