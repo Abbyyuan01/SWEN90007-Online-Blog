@@ -15,7 +15,7 @@ import database.Registry;
 public class BlogMapper {
 
 	public static List<Blog> findWithAuthorId(int AuthorId) {
-		String sql = "SELECT * " +
+		String sql = "SELECT id, author_id, title, content, created_at, updated_at, updated_user" +
 				" FROM blogs WHERE author_id = " + AuthorId;
 		PreparedStatement sqlPrepared = null;
 		List<Blog> result = new ArrayList<Blog>();
@@ -36,12 +36,12 @@ public class BlogMapper {
 	}
 	
 	public static List<Blog> findAllBlogs() {
-		String findAvailableBlogsStatement = 
-				"SELECT * FROM blogs ";
+		String sql = 
+				"SELECT id, author_id, title, content, created_at, updated_at, updated_user FROM blogs ";
 		List<Blog> result = new ArrayList<>();
 		
 		try {
-			PreparedStatement stmt = DBConnection.prepare(findAvailableBlogsStatement);
+			PreparedStatement stmt = DBConnection.prepare(sql);
 			
 			ResultSet rs = stmt.executeQuery();
 			
@@ -56,17 +56,14 @@ public class BlogMapper {
 	}
 	
 	public static void postNewBlog(Blog blog) {
-		String sql = "INSERT INTO blogs (author_id, title, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO blogs (author_id, title, content, created_at, updated_at, updated_user) VALUES (?, ?, ?, ?, ?, ?)";
 		PreparedStatement ps;
 		try {
 			ps = DBConnection.getDBConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			//ps.setInt(1, Integer.parseInt(request.getParameter("authorId")));
-			
-			if (blog.getAuthor() != null) {
-				ps.setInt(1, blog.getAuthor().getId());
-			} else {
-				ps.setInt(1, 0);
-			}
+					
+			ps.setInt(1, blog.getAuthor().getId());
+			ps.setInt(6, blog.getAuthor().getId());
 			
 			//ps.setString(2, request.getParameter("title"));
 			ps.setString(2, blog.getTitle());
@@ -96,14 +93,15 @@ public class BlogMapper {
 	}
 	
 	public static void editBlog(Blog blog) {
-		String sql = "UPDATE blogs SET title = ?, content = ?, updated_at = ? WHERE id = ?";
+		String sql = "UPDATE blogs SET title = ?, content = ?, updated_at = ?, updated_user = ? WHERE id = ?";
 		PreparedStatement ps;
 		try {
 			ps = DBConnection.prepare(sql);
 			ps.setString(1, blog.getTitle());
 			ps.setString(2, blog.getContent());
 			ps.setTimestamp(3, new Timestamp(blog.getLastEditDate().getTime()));
-			ps.setInt(4, blog.getId());
+			ps.setInt(4, blog.getUpdatedAuthor().getId());
+			ps.setInt(5, blog.getId());
 			
 			ps.executeUpdate();
 			
@@ -149,8 +147,10 @@ public class BlogMapper {
 		}
 		
 		int userId = rs.getInt(2);
+		int updatedUserId = rs.getInt(7);
 		User user = UserMapper.findWithUserId(userId);
-		result = new Blog(id, title, user, content, postDate, lastEditDate);
+		User updateUser = UserMapper.findWithUserId(updatedUserId);
+		result = new Blog(id, title, user, content, postDate, lastEditDate, updateUser);
 		Registry.addBlog(result);
 		return result;
 	}
@@ -162,7 +162,7 @@ public class BlogMapper {
 			return result;
 		}
 		
-		String sql = "SELECT *  FROM blogs WHERE id = ?";
+		String sql = "SELECT id, author_id, title, content, created_at, updated_at, updated_user FROM blogs WHERE id = ?";
 		PreparedStatement ps = null;
 		try {
 			ps = DBConnection.prepare(sql);

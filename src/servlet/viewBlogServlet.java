@@ -1,6 +1,8 @@
 package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import domain.Blog;
 import domain.BlogMapper;
+import domain.User;
+import domain.UserMapper;
 
 /**
  * Servlet implementation class viewBlogServlet
@@ -36,6 +40,11 @@ public class viewBlogServlet extends HttpServlet {
 		int id = Integer.parseInt(request.getParameter("blogId"));
 		Blog blog = BlogMapper.loadWithId(id);
 		request.setAttribute("blog", blog);
+		
+		List<User> users = new ArrayList<User>();
+		users = UserMapper.findAllUsers();
+		request.setAttribute("users", users);
+		
 		RequestDispatcher rd = request.getRequestDispatcher("viewBlog.jsp");
 		rd.forward(request, response);
 	}

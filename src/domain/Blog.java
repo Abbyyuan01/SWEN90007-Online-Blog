@@ -15,6 +15,8 @@ public class Blog {
 	
 	private User author;
 	
+	private User updatedBy;
+	
 	private String content;
 	
 	private Date postDate;
@@ -28,22 +30,24 @@ public class Blog {
 	
 	}
 	
-	public Blog (int id, String title, User author, String content, Date postDate, Date lastEditDate) {
+	public Blog (int id, String title, User author, String content, Date postDate, Date lastEditDate, User updatedBy) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
 		this.content = content;
 		this.postDate = postDate;
 		this.lastEditDate = lastEditDate;
+		this.updatedBy = updatedBy;
 		
 	}
 	
-	public Blog (String title, User author, String content, Date postDate, Date lastEditDate) {
+	public Blog (String title, User author, String content, Date postDate, Date lastEditDate, User updatedBy) {
 		this.title = title;
 		this.author = author;
 		this.content = content;
 		this.postDate = postDate;
 		this.lastEditDate = lastEditDate;
+		this.updatedBy = updatedBy;
 		
 		UnitOfWork.getInstance().registerNew(this);
 	}
@@ -65,6 +69,14 @@ public class Blog {
 		if (this.author == null) { load(); }
 		 
 		return author;	
+	}
+	
+	public User getUpdatedAuthor() {
+		
+		if (this.updatedBy == null) 
+		{ load(); }
+		 
+		return updatedBy;	
 	}
 	
 	public String getContent() {
@@ -107,6 +119,11 @@ public class Blog {
 		UnitOfWork.getInstance().registerDirty(this);
 	}
 	
+	public void setUpdatedAuthor(User user) {
+		this.updatedBy = user;
+		UnitOfWork.getInstance().registerDirty(this);
+	}
+	
 	public void setLastEditDate(Date date) {
 		this.lastEditDate = date;
 		UnitOfWork.getInstance().registerDirty(this);
@@ -125,6 +142,10 @@ public class Blog {
 		 if (this.author == null) { 
 			 this.author = blog.getAuthor(); 
 		}
+		 
+		 if (this.updatedBy == null) {
+			 this.updatedBy = blog.getUpdatedAuthor();
+		 }
 		 
 		if (this.content == null) {
 			this.content = blog.getContent();

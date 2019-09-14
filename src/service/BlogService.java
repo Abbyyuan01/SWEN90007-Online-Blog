@@ -36,7 +36,7 @@ public class BlogService {
 		User user = UserMapper.findWithUserId(authorId);
 		Date date = new Date();
 		
-		new Blog(title, user, content, date, date);
+		new Blog(title, user, content, date, date, user);
 		
 		UnitOfWork.getInstance().commit();
 	}
@@ -67,17 +67,19 @@ public class BlogService {
 	public static void editBlog(HttpServletRequest request) {
 				
 		int blogId = Integer.parseInt(request.getParameter("blogId"));
+		int authorId = Integer.parseInt(request.getParameter("updateAuthorId"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		
 		Blog blog = BlogMapper.loadWithId(blogId);
 
-		if (title != null) {
+		if (!title.equals("")) {
 			blog.setTitle(title);
 		}
-		if (content != null) {
+		if (!content.equals("")) {
 			blog.setContent(content);
 		}
+		blog.setUpdatedAuthor(UserMapper.findWithUserId(authorId));
 		blog.setLastEditDate(new Date());
 		
 		UnitOfWork.getInstance().commit();

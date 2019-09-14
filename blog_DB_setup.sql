@@ -1,6 +1,7 @@
 CREATE TABLE blogs (
 	id serial PRIMARY KEY,
 	author_id INT,
+	updated_user INT,
 	title VARCHAR(50),
 	content TEXT,
 	created_at TIMESTAMP,
