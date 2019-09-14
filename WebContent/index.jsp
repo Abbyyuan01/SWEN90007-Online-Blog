@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"
-    import="java.util.*" import="domain.Blog"%>
+    import="java.util.*" import="domain.Blog" import="domain.User"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,13 +10,24 @@
 </head>
 <body>
 <div class='container'>
+
+	<br>
+	<% List<User> users = (List<User>)request.getAttribute("users"); %>
+   
     <form action="./PostBlog" method="post">
         <div>
           <label for="name">Title </label> <input type="text" id="name" name="title">
         </div>
-        <div>
-          <label for="mail">Author Id </label> <input type="number" id="mail" name="authorId">
-        </div>
+        
+        <div class="form-group">
+	    <label for="selectAuthor">Select Author</label>
+		    <select class="form-control" id="SelectAuthor" name="authorId">
+		   		    <% for (User user : users) { %>
+				    	<option value=<%= user.getId()%>><%= user.getFirstName() %> <%= user.getLastName() %></option>
+				    <%} %>
+		    </select>
+	  	</div>
+	  	
         <div>
           <label for="msg">Body </label> <textarea id="msg" name="content"></textarea>
         </div>
@@ -24,10 +35,35 @@
           <button type="submit">Post your blog</button>
         </div>
     </form>
-    <a href="blog">Blogs</a>
+    
     <br>
     <br>
+    
+    <form action="./SearchBlogByUser" method="get">
+        
+        <div class="form-group">
+	    <label for="selectAuthor">Select Author</label>
+		    <select class="form-control" id="SelectAuthor" name="authorId">
+		   		    <% for (User user : users) { %>
+				    	<option value=<%= user.getId()%>><%= user.getFirstName() %> <%= user.getLastName() %></option>
+				    <%} %>
+		    </select>
+	  	</div>
+	  	
+        <div class="button">
+          <button type="submit">Search blog by user</button>
+        </div>
+    </form>
+    
+    <br>
+    
+    <a href="blog">List all blogs</a>
+    
+    <br>
+    <br>
+    
     <% List<Blog> blogs = (List<Blog>)request.getAttribute("blogs"); %>
+    <% if (blogs != null) { %>
     <% for (Blog blog : blogs) { %>
     	<h4><%= blog.getTitle() %></h4>
     	<%  if (blog.getAuthor() != null) { %>
@@ -59,6 +95,7 @@
 	    </form>
         ------------------------
         <br>
+    <%} %>
     <%} %>
       </div>
 </body>
