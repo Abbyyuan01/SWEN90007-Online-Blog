@@ -11,10 +11,6 @@
 	<div class="container">
 		<h3>Create New User</h3>
 		<form action="./AddUser" method="post">
-		  <div class="form-group">
-		    <label for="id">Id</label>
-		    <input type="number" class="form-control" id="userid" name="userId">
-		  </div>
 		   <div class="form-group">
 		    <label for="firstName">First Name</label>
 		    <input type="text" class="form-control" id="fname" name="firstName">

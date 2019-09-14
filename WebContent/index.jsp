@@ -10,6 +10,16 @@
 </head>
 <body>
 <div class='container'>
+    <form action="./viewBlog" method="get">
+
+        <div>
+          <label for="msg">Blog id </label> <textarea id="msg" name="blogId"></textarea>
+        </div>
+        <div class="button">
+          <button type="submit">Post your blog</button>
+        </div>
+    </form>
+    
     <form action="./PostBlog" method="post">
         <div>
           <label for="name">Title </label> <input type="text" id="name" name="title">
