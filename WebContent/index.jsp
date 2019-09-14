@@ -13,16 +13,6 @@
 
 	<br>
 	<% List<User> users = (List<User>)request.getAttribute("users"); %>
-   
-    <form action="./viewBlog" method="get">
-
-        <div>
-          <label for="msg">Blog id </label> <textarea id="msg" name="blogId"></textarea>
-        </div>
-        <div class="button">
-          <button type="submit">Post your blog</button>
-        </div>
-    </form>
     
     <form action="./PostBlog" method="post">
         <div>
@@ -75,34 +65,22 @@
     <% List<Blog> blogs = (List<Blog>)request.getAttribute("blogs"); %>
     <% if (blogs != null) { %>
     <% for (Blog blog : blogs) { %>
-    	<h4><%= blog.getTitle() %></h4>
+    	<h6><%= blog.getTitle() %></h6>
     	<%  if (blog.getAuthor() != null) { %>
     	<%=		blog.getAuthor().getFirstName() + " " + blog.getAuthor().getLastName() %><br>
     	<%	} else { %>
     	<%=		"This blog has invalid author id" %><br>
     	<%	} %>
-        <p> <%= blog.getContent() %></p>
-        <form action="./EditBlog?blogId=<%= blog.getId() %>" method="post">
-	        <div>
-	          <label for="edit-title">Title </label> <input type="text" id="edit-title" name="title">
-	        </div>
+    	
+    	    
+	    <form action="./viewBlog" method="get">
+	        <input type="hidden" name="blogId" value=<%= blog.getId() %> />
+		  	
 	        <div class="button">
-	          <button type="submit">Edit title</button>
+	          <button type="submit">view more</button>
 	        </div>
 	    </form>
-	    <form action="./EditBlog?blogId=<%= blog.getId() %>" method="post">
-	        <div>
-	          <label for="edit-content">Content </label> <textarea id="edit-content" name="content"></textarea>
-	        </div>
-	        <div class="button">
-	          <button type="submit">Edit content</button>
-	        </div>
-	    </form>
-	    <form action="./DeleteBlog?blogId=<%= blog.getId() %>" method="post">
-	        <div class="button">
-	          <button type="submit">Delete</button>
-	        </div>
-	    </form>
+    
         ------------------------
         <br>
     <%} %>

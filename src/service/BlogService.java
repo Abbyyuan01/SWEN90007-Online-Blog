@@ -1,5 +1,7 @@
 package service;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import database.Registry;
@@ -85,5 +87,13 @@ public class BlogService {
 		blog.delete();
 		
 		UnitOfWork.getInstance().commit();
+	}
+	
+	public static List<Blog> searchBlogByUser(HttpServletRequest request) {
+		int authorId = Integer.parseInt(request.getParameter("authorId"));
+		
+		List<Blog> blogs = BlogMapper.findWithAuthorId(authorId);
+		
+		return blogs;
 	}
 }

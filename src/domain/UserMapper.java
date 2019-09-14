@@ -4,11 +4,31 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import database.DBConnection;
 import database.Registry;
 
 public class UserMapper {
+	
+	public static List<User> findAllUsers() {
+		String sql = "SELECT * FROM users ";
+		List<User> result = new ArrayList<>();
+
+		try {
+			PreparedStatement ps = DBConnection.prepare(sql);
+
+			ResultSet rs = ps.executeQuery();
+
+			while (rs.next()) {
+				result.add(UserMapper.load(rs));
+			}
+		} catch (SQLException e) {
+
+		}
+		return result;
+	}
 
 	public static User findWithUserId(int UserId) {
 		String sql = "SELECT id, first_name, last_name, email, password " +
@@ -32,27 +52,23 @@ public class UserMapper {
 	}
 	
 	public static void addUser(User user) {
-		System.out.print("bbb");
-		String sql = "INSERT INTO users (id, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)";
 		PreparedStatement ps;
 		try {
 			ps = DBConnection.getDBConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			
-			ps.setInt(1, user.getId());			
-			ps.setString(2, user.getFirstName());
-			ps.setString(3, user.getLastName());
-			ps.setString(4, user.getEmail());
-			ps.setString(5, user.getPassword());
+			ps.setString(1, user.getFirstName());
+			ps.setString(2, user.getLastName());
+			ps.setString(3, user.getEmail());
+			ps.setString(4, user.getPassword());
 			
 			int r = ps.executeUpdate();
 			if (r > 0) {
                 try (ResultSet rs = ps.getGeneratedKeys()) {
                     if (rs.next()) {
-                        //System.out.println(id);
-                    	System.out.println("ccc");
-                    	System.out.println(user);
+                    	int id = rs.getInt(1);
+                    	user.setId(id);
                         Registry.addUser(user);
-                        System.out.println("ddd");
                     }
                 } catch (SQLException ex) {
                     System.out.println(ex.getMessage());
@@ -77,6 +93,30 @@ public class UserMapper {
 		String pw = rs.getString(5);
 		result = new User(id, firstName, lastName, email, pw);
 		Registry.addUser(result);
+		return result;
+	}
+	
+	public static User loadWithId(int id) {
+		
+		User result = Registry.getUser(id);
+		if (result != null) {
+			return result;
+		}
+		
+		String sql = "SELECT * FROM users WHERE id = ?";
+		PreparedStatement ps = null;
+		try {
+			ps = DBConnection.prepare(sql);
+			ps.setInt(1, id);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				result = (UserMapper.load(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return result;
 	}
 }

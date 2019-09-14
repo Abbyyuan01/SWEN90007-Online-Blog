@@ -29,7 +29,6 @@ public class AddUserServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Execute order 66");
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
@@ -39,7 +38,6 @@ public class AddUserServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 //		doGet(request, response);
 		UserService.addUser(request);
-		response.getWriter().write("Hello Abby!");
 		
 //		response.sendRedirect("/blog");
 	}

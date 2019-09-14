@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import domain.Blog;
 import domain.BlogMapper;
 import domain.User;
+import domain.UserMapper;
 
 public class UnitOfWork {
 
@@ -57,7 +58,7 @@ public class UnitOfWork {
 				BlogMapper.postNewBlog((Blog) obj);
 			}
 			if (obj.getClass() == User.class) {
-				//TODO
+				UserMapper.addUser((User) obj);
 			}
 		}
 		for (Object obj : dirtyObjects) {

@@ -13,7 +13,7 @@ import database.Registry;
 
 public class BlogMapper {
 
-	public static List<Blog> findWithAuthorId(String AuthorId) {
+	public static List<Blog> findWithAuthorId(int AuthorId) {
 		String sql = "SELECT * " +
 				" FROM blogs WHERE author_id = " + AuthorId;
 		PreparedStatement sqlPrepared = null;

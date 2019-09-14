@@ -29,7 +29,6 @@ public class PostBlogServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("Execute order 66");
 
 		response.getWriter().append("Served at: ").append(request.getContextPath());
 		
@@ -42,7 +41,7 @@ public class PostBlogServlet extends HttpServlet {
 		//doGet(request, response);
 
 		BlogService.addBlog(request);
-		response.sendRedirect("/blog");
+		response.sendRedirect("./blog");
 	}
 
 }

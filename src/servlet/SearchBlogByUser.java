@@ -1,4 +1,4 @@
-package domain;
+package servlet;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,17 +11,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import domain.Blog;
+import domain.User;
+import domain.UserMapper;
+import service.BlogService;
+
 /**
- * Servlet implementation class BlogServlet
+ * Servlet implementation class SearchBlogByUser
  */
-@WebServlet("/blog")
-public class BlogServlet extends HttpServlet {
+@WebServlet("/SearchBlogByUser")
+public class SearchBlogByUser extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public BlogServlet() {
+    public SearchBlogByUser() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,20 +36,9 @@ public class BlogServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
 		List<Blog> blogs = new ArrayList<Blog>();
 		
-		blogs = Blog.getAllAvailableBlogs();
-		
-		/*
-		 * for (Blog blog : blogs) { System.out.println(blog.getTitle());
-		 * System.out.println(blog.getContent()); if (blog.getAuthor() != null) {
-		 * System.out.println(blog.getAuthor().getFirstName() + " " +
-		 * blog.getAuthor().getLastName() ); } else {
-		 * System.out.println("This blog has invalid author id" );
-		 * 
-		 * } System.out.println(blog.getId()); System.out.println("------------"); }
-		 */
+		blogs = BlogService.searchBlogByUser(request);
 		
 		request.setAttribute("blogs", blogs);
 		
@@ -56,8 +50,6 @@ public class BlogServlet extends HttpServlet {
 		
 		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 		rd.forward(request, response);
-		//response.sendRedirect("blog.jsp");
-
 	}
 
 	/**

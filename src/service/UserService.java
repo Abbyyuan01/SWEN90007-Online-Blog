@@ -22,14 +22,12 @@ public class UserService {
 	
 	public static void addUser(HttpServletRequest request) {
 		
-		int id = Integer.parseInt(request.getParameter("userId"));
 		String firstName = request.getParameter("firstName");
 		String lastName = request.getParameter("lastName");
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		
-		new User(id, firstName, lastName, email, password);
-		System.out.println("444");
+		new User(firstName, lastName, email, password);
 		
 		UnitOfWork.getInstance().commit();
 	}
