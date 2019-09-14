@@ -3,31 +3,12 @@ package domain;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Statement;
 
 import database.DBConnection;
 import database.Registry;
 
 public class UserMapper {
-	
-	public static List<User> findAllUsers() {
-		String sql = "SELECT * FROM users ";
-		List<User> result = new ArrayList<>();
-		
-		try {
-			PreparedStatement ps = DBConnection.prepare(sql);
-			
-			ResultSet rs = ps.executeQuery();
-			
-			while (rs.next()) {
-				result.add(UserMapper.load(rs));
-			}
-		} catch (SQLException e) {
-			
-		}
-		return result;
-	}
 
 	public static User findWithUserId(int UserId) {
 		String sql = "SELECT id, first_name, last_name, email, password " +
@@ -50,8 +31,37 @@ public class UserMapper {
 		return result;
 	}
 	
-	public static void createUser(User user) {
-		
+	public static void addUser(User user) {
+		System.out.print("bbb");
+		String sql = "INSERT INTO users (id, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?)";
+		PreparedStatement ps;
+		try {
+			ps = DBConnection.getDBConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			
+			ps.setInt(1, user.getId());			
+			ps.setString(2, user.getFirstName());
+			ps.setString(3, user.getLastName());
+			ps.setString(4, user.getEmail());
+			ps.setString(5, user.getPassword());
+			
+			int r = ps.executeUpdate();
+			if (r > 0) {
+                try (ResultSet rs = ps.getGeneratedKeys()) {
+                    if (rs.next()) {
+                        //System.out.println(id);
+                    	System.out.println("ccc");
+                    	System.out.println(user);
+                        Registry.addUser(user);
+                        System.out.println("ddd");
+                    }
+                } catch (SQLException ex) {
+                    System.out.println(ex.getMessage());
+                }
+			}
+			//DBConnection.getDBConnection().commit();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static User load(ResultSet rs) throws SQLException {
