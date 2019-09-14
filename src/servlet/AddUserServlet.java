@@ -1,4 +1,4 @@
-package domain;
+package servlet;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,19 +7,19 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.BlogService;
+import service.UserService;
 
 /**
- * Servlet implementation class PostBlogServlet
+ * Servlet implementation class AddUserServlet
  */
-@WebServlet("/PostBlog")
-public class PostBlogServlet extends HttpServlet {
+@WebServlet("/AddUser")
+public class AddUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PostBlogServlet() {
+    public AddUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,18 +29,16 @@ public class PostBlogServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-
 		response.getWriter().append("Served at: ").append(request.getContextPath());
-		
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//doGet(request, response);
-
-		BlogService.addBlog(request);
+//		doGet(request, response);
+		UserService.addUser(request);
+		
 		response.sendRedirect("./blog");
 	}
 

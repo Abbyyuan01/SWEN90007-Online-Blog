@@ -31,6 +31,8 @@
         <div>
           <label for="msg">Body </label> <textarea id="msg" name="content"></textarea>
         </div>
+        <input type="hidden" name="date" value=<%= "1" %> />
+        
         <div class="button">
           <button type="submit">Post your blog</button>
         </div>

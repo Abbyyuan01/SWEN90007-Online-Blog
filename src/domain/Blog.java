@@ -61,9 +61,9 @@ public class Blog {
 	}
 	
 	public User getAuthor() {
-		/*
-		 * if (this.author == null) { load(); }
-		 */
+		
+		if (this.author == null) { load(); }
+		 
 		return author;	
 	}
 	
@@ -121,9 +121,11 @@ public class Blog {
 		if (this.title == null) {
 			this.title = blog.getTitle();
 		}
-		/*
-		 * if (this.author == null) { this.author = blog.getAuthor(); }
-		 */
+		
+		 if (this.author == null) { 
+			 this.author = blog.getAuthor(); 
+		}
+		 
 		if (this.content == null) {
 			this.content = blog.getContent();
 		}
@@ -135,11 +137,4 @@ public class Blog {
 		}
 	}
 	
-	public static List<Blog> getAllAvailableBlogs() {
-		List<Blog> result = new ArrayList<Blog>();
-		
-		result = BlogMapper.findAllBlogs();
-		
-		return result;
-	}
 }

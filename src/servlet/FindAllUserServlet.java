@@ -1,25 +1,30 @@
-package domain;
+package servlet;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.BlogService;
+import domain.User;
+import domain.UserMapper;
 
 /**
- * Servlet implementation class DeleteBlogServlet
+ * Servlet implementation class FindAllUserServlet
  */
-@WebServlet("/DeleteBlog")
-public class DeleteBlogServlet extends HttpServlet {
+@WebServlet("/FindAllUserServlet")
+public class FindAllUserServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DeleteBlogServlet() {
+    public FindAllUserServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -29,7 +34,15 @@ public class DeleteBlogServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
+		List<User> users = new ArrayList<User>();
+		 
+		users = UserMapper.findAllUsers();
+		
+		request.setAttribute("users", users);
+		
+		RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+		rd.forward(request, response);
 	}
 
 	/**
@@ -37,9 +50,7 @@ public class DeleteBlogServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//doGet(request, response);
-		BlogService.deleteBlog(request);
-		response.sendRedirect("./blog");
+		doGet(request, response);
 	}
 
 }

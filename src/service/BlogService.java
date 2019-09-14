@@ -1,5 +1,7 @@
 package service;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,8 +34,9 @@ public class BlogService {
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
 		User user = UserMapper.findWithUserId(authorId);
+		Date date = new Date();
 		
-		new Blog(title, user, content, null, null);
+		new Blog(title, user, content, date, date);
 		
 		UnitOfWork.getInstance().commit();
 	}
@@ -75,6 +78,7 @@ public class BlogService {
 		if (content != null) {
 			blog.setContent(content);
 		}
+		blog.setLastEditDate(new Date());
 		
 		UnitOfWork.getInstance().commit();
 	}
@@ -87,6 +91,14 @@ public class BlogService {
 		blog.delete();
 		
 		UnitOfWork.getInstance().commit();
+	}
+	
+	public static List<Blog> getAllAvailableBlogs() {
+		List<Blog> result = new ArrayList<Blog>();
+		
+		result = BlogMapper.findAllBlogs();
+		
+		return result;
 	}
 	
 	public static List<Blog> searchBlogByUser(HttpServletRequest request) {

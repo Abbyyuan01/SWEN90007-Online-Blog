@@ -1,6 +1,7 @@
 package domain;
 
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -55,7 +56,7 @@ public class BlogMapper {
 	}
 	
 	public static void postNewBlog(Blog blog) {
-		String sql = "INSERT INTO blogs (author_id, title, content) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO blogs (author_id, title, content, created_at, updated_at) VALUES (?, ?, ?, ?, ?)";
 		PreparedStatement ps;
 		try {
 			ps = DBConnection.getDBConnection().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -71,6 +72,9 @@ public class BlogMapper {
 			ps.setString(2, blog.getTitle());
 			//ps.setString(3, request.getParameter("content"));
 			ps.setString(3, blog.getContent());
+			ps.setTimestamp(4, new Timestamp(blog.getPostDate().getTime()));
+			ps.setTimestamp(5, new Timestamp(blog.getLastEditDate().getTime()));
+
 			
 			int r = ps.executeUpdate();
 			if (r > 0) {
@@ -92,13 +96,14 @@ public class BlogMapper {
 	}
 	
 	public static void editBlog(Blog blog) {
-		String sql = "UPDATE blogs SET title = ?, content = ? WHERE id = ?";
+		String sql = "UPDATE blogs SET title = ?, content = ?, updated_at = ? WHERE id = ?";
 		PreparedStatement ps;
 		try {
 			ps = DBConnection.prepare(sql);
 			ps.setString(1, blog.getTitle());
 			ps.setString(2, blog.getContent());
-			ps.setInt(3, blog.getId());
+			ps.setTimestamp(3, new Timestamp(blog.getLastEditDate().getTime()));
+			ps.setInt(4, blog.getId());
 			
 			ps.executeUpdate();
 			
@@ -131,8 +136,17 @@ public class BlogMapper {
 		
 		String title = rs.getString(3);
 		String content = rs.getString(4);
-		Date postDate = rs.getDate(5);
-		Date lastEditDate = rs.getDate(6);
+		
+		//Timestamp ts = rs.getTimestamp(5);
+	
+		Date postDate = null;
+		if (rs.getTimestamp(5) != null) {
+			postDate = new Date(rs.getTimestamp(5).getTime());
+		} 
+		Date lastEditDate = null; 
+		if (rs.getTimestamp(6) != null) {
+			lastEditDate = new Date(rs.getTimestamp(6).getTime());
+		}
 		
 		int userId = rs.getInt(2);
 		User user = UserMapper.findWithUserId(userId);
