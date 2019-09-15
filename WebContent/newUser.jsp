@@ -9,6 +9,8 @@
 </head>
 <body>
 	<div class="container">
+		<br>
+		<a href="./">Home page</a>
 		<h3>Create New User</h3>
 		<form action="./AddUser" method="post">
 		   <div class="form-group">
