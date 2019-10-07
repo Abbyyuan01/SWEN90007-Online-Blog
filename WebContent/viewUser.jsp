@@ -41,7 +41,6 @@ body {
 	  <tbody>
 	    <tr>
 	      <th scope="row"><%=user.getId()%></th>
-	      <td><%=user.getId()%></td>
 	      <td><%=user.getFirstName()%></td>
 	      <td><%=user.getFirstName()%></td>
 	      <td><%=user.getEmail()%></td>
