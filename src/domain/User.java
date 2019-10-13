@@ -3,6 +3,7 @@ package domain;
 import database.UnitOfWork;
 
 public class User {
+	
 
 	private int id;
 	
@@ -14,23 +15,27 @@ public class User {
 	
 	private String password;
 	
+	private UserType type;
+	
 	public User (int id) {
 		this.id = id;
 	}
 	
-	public User (int id, String firstName, String lastName, String email, String password) {
+	public User (int id, String firstName, String lastName, String email, String password, UserType type) {
 		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.type = type;
 	}
 	
-	public User (String firstName, String lastName, String email, String password) {
+	public User (String firstName, String lastName, String email, String password, UserType type) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
 		this.password = password;
+		this.type = type;
 		
 		UnitOfWork.getInstance().registerNew(this);
 	}
@@ -67,6 +72,20 @@ public class User {
 		return password;
 	}
 	
+	public UserType getType() {
+		if (this.type == null) {
+			load();
+		}
+		return this.type;
+	}
+	
+	public String getTypeName() {
+		if (this.type == null) {
+			load();
+		}
+		return this.type.name();
+	}
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -96,7 +115,7 @@ public class User {
 	}
 	
 	private void load() {
-		User user = UserMapper.findWithUserId(this.id);
+		User user = UserMapper.loadWithId(this.id);
 		if (this.firstName == null) {
 			this.firstName = user.getFirstName();
 		}
@@ -108,6 +127,9 @@ public class User {
 		}
 		if (this.password == null) {
 			this.password = user.getPassword();
+		}
+		if (this.type == null) {
+			this.type = user.getType();
 		}
 	}
 }

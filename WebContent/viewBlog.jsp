@@ -21,7 +21,7 @@ body {
 	<div class="blog">
 	
 		 <% Blog blog = (Blog)request.getAttribute("blog"); %>
-		 <% List<User> users = (List<User>)request.getAttribute("users"); %>
+<%-- 		 <% List<User> users = (List<User>)request.getAttribute("users"); %> --%>
 		 <% SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); %>
 		
 		<h1><%= blog.getTitle() %></h1>
@@ -34,33 +34,38 @@ body {
 		
 	</div>
 		
-		<form action="./EditBlog?blogId=<%= blog.getId() %>" method="post">
-	        <div>
-	          <label for="edit-title">Title </label> 
-	          <input type="text" class="form-control" id="edit-title" name="title" value=<%=blog.getTitle()%>>
-	        </div>
-		    <div class="form-group">
-		    	<label for="selectAuthor">Select Author</label>
-			    <select class="form-control" id="SelectAuthor" name="updateAuthorId">
-			   		    <% for (User user : users) { %>
-					    	<option value=<%= user.getId()%>><%= user.getFirstName() %> <%= user.getLastName() %></option>
-					    <%} %>
-			    </select>
-		  	</div>
-		  	<div>
-	          <label for="edit-content">Content </label> 
-	          <textarea id="edit-content" class="form-control" name="content" style="height:200px"><%=blog.getContent()%></textarea>
-	        </div>
-	        <div class="button">
-	          <button type="submit" class="btn btn-secondary">Edit</button>
-	        </div>
-	    </form>
-	   
-	    <form action="./DeleteBlog?blogId=<%= blog.getId() %>" method="post">
-	        <div class="button">
-	          <button type="submit" class="btn btn-danger">Delete</button>
-	        </div>
+<%-- 	<form action="./EditBlog?blogId=<%= blog.getId() %>" method="post">
+        <div>
+          <label for="edit-title">Title </label> 
+          <input type="text" class="form-control" id="edit-title" name="title" value="<%=blog.getTitle()%>">
+        </div>
+	    <div class="form-group">
+	    	<label for="selectAuthor">Select Author</label>
+		    <select class="form-control" id="SelectAuthor" name="updateAuthorId">
+		   		    <% for (User user : users) { %>
+				    	<option value=<%= user.getId()%>><%= user.getFirstName() %> <%= user.getLastName() %></option>
+				    <%} %>
+		    </select>
+	  	</div>
+	  	<div>
+          <label for="edit-content">Content </label> 
+          <textarea id="edit-content" class="form-control" name="content" style="height:200px"><%=blog.getContent()%></textarea>
+        </div>
+        <div class="button">
+          <button type="submit" class="btn btn-secondary">Edit</button>
+        </div>
+    </form> --%>
+   
+    <form action="./DeleteBlog?blogId=<%= blog.getId() %>" method="post">
+        <div class="button">
+          <button type="submit" class="btn btn-danger">Delete</button>
+        </div>
+   	</form>
+   	
+    <form action="./StartEditBlog?blogId=<%= blog.getId() %>" method="post">
+    	<button type="submit" class="btn btn-secondary">Edit article</button>
     </form>
+    
     
     <a href="blog">Return to homepage</a>
     

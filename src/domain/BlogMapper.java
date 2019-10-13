@@ -148,8 +148,8 @@ public class BlogMapper {
 		
 		int userId = rs.getInt(2);
 		int updatedUserId = rs.getInt(7);
-		User user = UserMapper.findWithUserId(userId);
-		User updateUser = UserMapper.findWithUserId(updatedUserId);
+		User user = UserMapper.loadWithId(userId);
+		User updateUser = UserMapper.loadWithId(updatedUserId);
 		result = new Blog(id, title, user, content, postDate, lastEditDate, updateUser);
 		Registry.addBlog(result);
 		return result;

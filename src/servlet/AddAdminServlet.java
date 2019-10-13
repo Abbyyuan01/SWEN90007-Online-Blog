@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import service.UserService;
 
 /**
- * Servlet implementation class AddUserServlet
+ * Servlet implementation class AddAdminServlet
  */
-@WebServlet("/AddUser")
-public class AddUserServlet extends HttpServlet {
+@WebServlet("/AddAdmin")
+public class AddAdminServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddUserServlet() {
+    public AddAdminServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,8 +36,12 @@ public class AddUserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		doGet(request, response);
-		UserService.addNormalUser(request);
+		// TODO Auto-generated method stub
+		String firstname = request.getParameter("firstName");
+		String lastname = request.getParameter("lastName");
+		String email = request.getParameter("email");
+		String password = request.getParameter("password");
+		UserService.addAdmin(firstname, lastname, email, password);
 		
 		response.sendRedirect("./blog");
 	}

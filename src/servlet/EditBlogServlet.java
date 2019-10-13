@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.LockManager;
 import domain.Blog;
 import domain.BlogMapper;
 import domain.User;
@@ -37,7 +38,19 @@ public class EditBlogServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		int id = Integer.parseInt(request.getParameter("blogId"));
+		
+		LockManager manager = LockManager.getInstance();
+		if (manager.acquireLock(id, request.getSession().getId())) {
+			Blog blog = BlogService.getBlogById(id);
+			request.setAttribute("blog", blog);
+			
+			RequestDispatcher rd = request.getRequestDispatcher("editBlog.jsp");
+			rd.forward(request, response);
+		} else {
+			
+		}
+
 	}
 
 	/**
@@ -54,6 +67,8 @@ public class EditBlogServlet extends HttpServlet {
 		List<User> users = new ArrayList<User>();
 		users = UserMapper.findAllUsers();
 		request.setAttribute("users", users);
+		
+		LockManager.getInstance().releaseLock(id, request.getSession().getId());
 		
 		RequestDispatcher rd = request.getRequestDispatcher("viewBlog.jsp");
 		rd.forward(request, response);

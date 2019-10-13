@@ -3,10 +3,15 @@ import java.sql.*;
 
 public class DBConnection {
 
-	private static final String DB_CONNECTION = "jdbc:postgresql://ec2-174-129-27-158.compute-1.amazonaws.com:5432/da0u8lk1euv289";
+	//private static final String DB_CONNECTION = "jdbc:postgresql://ec2-174-129-27-158.compute-1.amazonaws.com:5432/da0u8lk1euv289";
 	
-	private static final String DB_USER = "ryqoqnpycwtmcx";
-	private static final String DB_PASSWORD = "7cce20f63a035c860a51c3b02ee51ad3158d038db08cacfe77d314c2cce28e99";
+	//private static final String DB_USER = "ryqoqnpycwtmcx";
+	//private static final String DB_PASSWORD = "7cce20f63a035c860a51c3b02ee51ad3158d038db08cacfe77d314c2cce28e99";
+	
+	private static final String DB_CONNECTION = "jdbc:postgresql://localhost:5432/bookshop";
+	
+	private static final String DB_USER = "postgres";
+	private static final String DB_PASSWORD = "admin";
 	
 	private static Connection dbConnection;
 		

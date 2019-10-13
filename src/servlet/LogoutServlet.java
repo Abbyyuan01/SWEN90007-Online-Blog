@@ -1,25 +1,28 @@
 package servlet;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import service.UserService;
+import session.AppSession;
 
 /**
- * Servlet implementation class AddUserServlet
+ * Servlet implementation class LogoutServlet
  */
-@WebServlet("/AddUser")
-public class AddUserServlet extends HttpServlet {
+@WebServlet("/LogoutServlet")
+public class LogoutServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public AddUserServlet() {
+    public LogoutServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,10 +39,13 @@ public class AddUserServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		doGet(request, response);
-		UserService.addNormalUser(request);
-		
-		response.sendRedirect("./blog");
+		// TODO Auto-generated method stub
+		if (AppSession.isAuthenticated()) {
+			AppSession.logout();
+			ServletContext servletContext = getServletContext();
+			RequestDispatcher rd = servletContext.getRequestDispatcher("/login.jsp");
+			rd.forward(request, response);
+		}
 	}
 
 }

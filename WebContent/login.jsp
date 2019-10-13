@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8" import="java.util.*" import="domain.User"%>
+    pageEncoding="UTF-8" import="java.util.*" import="domain.User"
+    import="session.AppSession"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -21,13 +22,22 @@
           font-size: 3.5rem;
         }
       }
-}
+
+	body {
+	  	padding: 2rem 10rem 2rem 10rem;
+	  
+	}
+	.blog {
+	  text-align: center;
+	}
 </style>
 <link href="https://getbootstrap.com/docs/4.3/examples/floating-labels/floating-labels.css" rel="stylesheet">
 </head>
 <body>
 
-	    <form class="form-signin" name= "form" action="<%=request.getContextPath()%>/login" method="post">       
+	<% if (!AppSession.isAuthenticated() || AppSession.getUser() == null) {%>
+
+	    <form class="form-signin" name= "form" action="./LoginServlet" method="post">       
 	      <div class="text-center mb-4">
 		    <img class="mb-4" src="https://getbootstrap.com/docs/4.3/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
 		    <h1 class="h3 mb-3 font-weight-normal">Login in</h1>
@@ -53,6 +63,15 @@
 		  </div>
 		  <button class="btn btn-lg btn-primary btn-block" type="submit">Log in</button>
 	    </form>
+	    
+	    <% } else { %>
+	    
+	    You are already logged in as <%= AppSession.getUser().getFirstName() + AppSession.getUser().getLastName() %>
+	    
+	    <br><br><br>
+	    <a href="./ViewUserServlet?authorId=<%=AppSession.getUser().getId()%>">My homepage</a>
+	    
+	    <%} %>
  
 </body>
 </html>

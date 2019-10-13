@@ -4,8 +4,10 @@ import java.util.ArrayList;
 
 import domain.Blog;
 import domain.BlogMapper;
+import domain.LockingBlogMapper;
 import domain.User;
 import domain.UserMapper;
+import session.AppSession;
 
 public class UnitOfWork {
 
@@ -66,7 +68,7 @@ public class UnitOfWork {
 				BlogMapper.editBlog((Blog) obj);
 			}
 			if (obj.getClass() == User.class) {
-				//TODO
+				UserMapper.editUser((User) obj);
 			}
 		}
 		for (Object obj : deletedObjects) {
@@ -74,7 +76,7 @@ public class UnitOfWork {
 				BlogMapper.deleteBlog((Blog) obj);
 			}
 			if (obj.getClass() == User.class) {
-				//TODO
+				UserMapper.deleteUser((User) obj);
 			}
 		}
 		newObjects.clear();

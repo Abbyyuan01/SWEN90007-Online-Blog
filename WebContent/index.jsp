@@ -20,6 +20,8 @@
 
 	<br>
 	<% List<User> users = (List<User>)request.getAttribute("users"); %>
+	
+	<a href="login.jsp">Login</a>
     
     <form action="./PostBlog" method="post">
         <div>

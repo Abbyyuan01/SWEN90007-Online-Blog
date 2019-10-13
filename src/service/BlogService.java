@@ -33,7 +33,7 @@ public class BlogService {
 		int authorId = Integer.parseInt(request.getParameter("authorId"));
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
-		User user = UserMapper.findWithUserId(authorId);
+		User user = UserMapper.loadWithId(authorId);
 		Date date = new Date();
 		
 		new Blog(title, user, content, date, date, user);
@@ -79,7 +79,7 @@ public class BlogService {
 		if (!content.equals("")) {
 			blog.setContent(content);
 		}
-		blog.setUpdatedAuthor(UserMapper.findWithUserId(authorId));
+		blog.setUpdatedAuthor(UserMapper.loadWithId(authorId));
 		blog.setLastEditDate(new Date());
 		
 		UnitOfWork.getInstance().commit();
@@ -103,8 +103,21 @@ public class BlogService {
 		return result;
 	}
 	
+	public static Blog getBlogById(int blogId) {
+		Blog blog = BlogMapper.loadWithId(blogId);
+		
+		return blog;
+	}
+	
 	public static List<Blog> searchBlogByUser(HttpServletRequest request) {
 		int authorId = Integer.parseInt(request.getParameter("authorId"));
+		
+		List<Blog> blogs = BlogMapper.findWithAuthorId(authorId);
+		
+		return blogs;
+	}
+	
+	public static List<Blog> searchBlogByUser(int authorId) {
 		
 		List<Blog> blogs = BlogMapper.findWithAuthorId(authorId);
 		
