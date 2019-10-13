@@ -1,5 +1,5 @@
+package auth;
 import domain.*;
-import session.AppSession;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;

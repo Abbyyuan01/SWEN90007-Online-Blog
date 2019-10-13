@@ -2,12 +2,12 @@ package database;
 
 import java.util.ArrayList;
 
+import auth.AppSession;
 import domain.Blog;
 import domain.BlogMapper;
 import domain.LockingBlogMapper;
 import domain.User;
 import domain.UserMapper;
-import session.AppSession;
 
 public class UnitOfWork {
 

@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import auth.AppSession;
 import service.UserService;
-import session.AppSession;
 
 /**
  * Servlet implementation class DeleteUserServlet

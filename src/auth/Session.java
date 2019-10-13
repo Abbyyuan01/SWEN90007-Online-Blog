@@ -1,4 +1,4 @@
-package session;
+package auth;
 import domain.User;
 import javax.servlet.http.HttpSession;
 
